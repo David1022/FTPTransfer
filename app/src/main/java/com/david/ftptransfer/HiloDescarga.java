@@ -1,6 +1,7 @@
 package com.david.ftptransfer;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 /**
@@ -10,6 +11,12 @@ import android.os.AsyncTask;
 public class HiloDescarga extends AsyncTask <String, Object, Object> {
 
     ProgressDialog pd;
+    private OnTaskCompleted tareaCompletada;
+
+    public HiloDescarga (OnTaskCompleted activityContext) {
+        this.tareaCompletada = activityContext;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -33,7 +40,7 @@ public class HiloDescarga extends AsyncTask <String, Object, Object> {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-
         pd.dismiss();
+        tareaCompletada.onTaskCompleted();
     }
 }

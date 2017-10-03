@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, OnTaskCompleted {
 
     private static final String TAG = "MainActivity";
     private static final String TEMP_FILENAME = "TAGtest.txt";
@@ -38,9 +39,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         private final String USER = "vodafone";
         private final String PASS = "4LX7XLD42P6E2X";
     */
+
     public static final String HOST = "ftp.appdesigndm.com";
     public static final String USER = "master@appdesigndm.com";
-    public static final String PASS = "Alin1022";
+    public static final String PASS = "DavidAlex1022";
 
 
     private MyFTPClientFunctions ftpclient = null;
@@ -115,6 +117,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mFTPClient = new FTPClient();
     }
 
+    @Override
+    public void onTaskCompleted() {
+        Toast.makeText(getApplicationContext(), "Oleee", Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(getApplicationContext(), Prueba.class);
+        //startActivity(intent);
+    }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLoginFtp:
@@ -127,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnDownload:
-                HiloDescarga hilo = new HiloDescarga();
+                HiloDescarga hilo = new HiloDescarga(this);
                 hilo.execute(srcFilePath, desFileStream);
                 //download(srcFilePath, desFileStream);
                 break;
